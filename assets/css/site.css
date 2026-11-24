@@ -405,6 +405,8 @@ li.open > .drop{opacity:1;visibility:visible;transform:none}
   .svc-grid,.quotes,.team,.facts{grid-template-columns:1fr}
   .footer .grid{grid-template-columns:1fr}
   .brand b{font-size:17px}
+  .nav-in{gap:8px}
+  .mode,.burger,.nav-call{flex:none}
   .alarmbar .msg{display:none}
   .price-table th,.price-table td{padding:12px 14px;font-size:15px}
 }
@@ -526,4 +528,12 @@ li.open > .drop{opacity:1;visibility:visible;transform:none}
   .timeline li{flex:0 0 min(72vw,270px);scroll-snap-align:start;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;padding-bottom:22px}
   .timeline .dot{width:48px;height:48px;margin:0 0 14px}
   .timeline small{margin:0}
+}
+
+/* v2.5: przełącznik dzień/noc widoczny na każdym ekranie */
+@media (max-width:1100px){.mode{width:46px;height:46px;padding:0;justify-content:center}.mode .knob{width:34px;height:34px}}
+@media (max-width:420px){.brand .w{display:none}.nav-call{width:46px;padding:0}}
+@media (max-width:700px){
+  .mode-tip{position:fixed;top:calc(var(--nav-h) + 10px);left:12px;right:12px!important;width:auto}
+  .mode-tip::before{right:auto;left:var(--arrow-x,70%)}
 }

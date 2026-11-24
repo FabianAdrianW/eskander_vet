@@ -57,6 +57,7 @@ const PRICES = { wizyta:null, szczepienie:null, chip:null, paszport:null, kastra
       tip.innerHTML = '<b>Włączyliśmy tryb nocny</b>Przychodnia jest teraz zamknięta, więc na górze widzisz numer dyżurny. <button type="button">Pokaż zwykłą stronę</button>';
       const box = modeBtn.parentElement; box.style.position = 'relative'; modeBtn.after(tip);
       tip.style.right = Math.max(0, box.getBoundingClientRect().right - modeBtn.getBoundingClientRect().right - 8) + 'px';
+      const r = modeBtn.getBoundingClientRect(); tip.style.setProperty('--arrow-x', Math.max(16, r.left + r.width/2 - 12 - 6) + 'px');
       tip.querySelector('button').addEventListener('click', goDay);
       setTimeout(() => tip.classList.add('show'), 900);
       setTimeout(hideTip, 9000);
