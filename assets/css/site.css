@@ -537,3 +537,11 @@ li.open > .drop{opacity:1;visibility:visible;transform:none}
   .mode-tip{position:fixed;top:calc(var(--nav-h) + 10px);left:12px;right:12px!important;width:auto}
   .mode-tip::before{right:auto;left:var(--arrow-x,70%)}
 }
+
+/* v2.6: trasa w trybie alarmowym — drugi najważniejszy przycisk */
+.btn-route{background:#FFFFFF;color:#0E2A3B;border-color:#FFFFFF}
+.btn-route:hover{transform:translateY(-2px);background:var(--warm);border-color:var(--warm);box-shadow:0 14px 28px -14px rgba(242,179,94,.8)}
+.btn-route svg{color:#00669A}
+.alarm-hero .btn-route{display:flex;justify-content:flex-start;gap:14px;max-width:520px;width:100%;min-height:68px;margin-top:12px;padding:12px 24px;border-radius:20px;font-size:19px;text-align:left;white-space:normal}
+.alarm-hero .btn-route svg{width:26px;height:26px}
+.alarm-hero .btn-route small{display:block;font-size:14px;font-weight:600;color:#4F616A;margin-top:2px}

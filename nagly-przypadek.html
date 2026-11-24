@@ -14,7 +14,7 @@
 <link rel="preload" as="font" type="font/woff2" href="fonts/figtree-latin-800-normal.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="fonts/figtree-latin-400-normal.woff2" crossorigin>
 
-<link rel="stylesheet" href="assets/css/site.css?v=523dc82e">
+<link rel="stylesheet" href="assets/css/site.css?v=58dd6a8d">
 <script>/* motyw ustawiany przed renderem, bez mignięcia */(function(){try{var m=sessionStorage.getItem('esk-mode');if(m){document.documentElement.dataset.theme=m;return}}catch(e){}var p=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Warsaw',weekday:'short',hour:'2-digit',hour12:false}).formatToParts(new Date()),d=p.find(function(x){return x.type==='weekday'}).value,h=+p.find(function(x){return x.type==='hour'}).value,o={Mon:18,Tue:18,Wed:18,Thu:18,Fri:18,Sat:15}[d];document.documentElement.dataset.theme=(o&&h>=10&&h<o)?'day':'night'})();</script>
 </head>
 <body class="page-nagly-przypadek">
@@ -96,7 +96,7 @@
     <p class="lead">Lekarz powie, czy trzeba przyjechać od razu.</p>
     <div class="em-actions">
       <a class="btn btn-alarm btn-lg" href="tel:+48536041341"><svg><use href="#i-phone"/></svg>536 041 341</a>
-      <a class="btn btn-ghost btn-lg" href="https://www.google.com/maps/dir/?api=1&amp;destination=51.0616959,17.3001209" target="_blank" rel="noopener"><svg><use href="#i-pin"/></svg>Wyznacz trasę</a>
+      <a class="btn btn-route btn-lg" href="https://www.google.com/maps/dir/?api=1&amp;destination=51.0616959,17.3001209" target="_blank" rel="noopener"><svg><use href="#i-car"/></svg>Wyznacz trasę</a>
     </div>
     <p class="em-hours"><svg aria-hidden="true"><use href="#i-clock"/></svg>Dyżur: pn–pt po 18:00, sob po 15:00, niedziele i święta</p>
   </div>
