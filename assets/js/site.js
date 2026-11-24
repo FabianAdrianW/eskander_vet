@@ -89,3 +89,17 @@ const PRICES = { wizyta:null, szczepienie:null, chip:null, paszport:null, kastra
 
   const y = document.getElementById('y'); if (y) y.textContent = new Date().getFullYear();
 })();
+
+/* kropki karuzeli usług (telefon) */
+(function(){
+  const t = document.getElementById('svc-track'), d = document.getElementById('svc-dots');
+  if (!t || !d) return;
+  const dots = [...d.children];
+  t.addEventListener('scroll', () => {
+    const cards = [...t.children], x = t.scrollLeft;
+    let i = 0, best = Infinity;
+    cards.forEach((c, k) => { const dist = Math.abs(c.offsetLeft - t.offsetLeft - x - parseFloat(getComputedStyle(t).paddingLeft) + 0); if (dist < best){ best = dist; i = k; } });
+    if (t.scrollLeft + t.clientWidth >= t.scrollWidth - 4) i = cards.length - 1;
+    dots.forEach((el, k) => el.classList.toggle('on', k === i));
+  }, {passive:true});
+})();

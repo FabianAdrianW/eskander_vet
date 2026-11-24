@@ -458,3 +458,45 @@ li.open > .drop{opacity:1;visibility:visible;transform:none}
 .em-steps li > span:last-child{color:var(--muted)}
 @media (max-width:900px){.flags{grid-template-columns:1fr 1fr}.em-steps{grid-template-columns:1fr}}
 @media (max-width:560px){.flags{grid-template-columns:1fr}.em-actions .btn{width:100%}}
+
+/* v2.3: mapa dojazdu */
+.map-card{position:relative;margin-top:clamp(36px,5vw,64px);border-radius:20px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);background:var(--tint);aspect-ratio:21/8;min-height:380px}
+.map-card iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:saturate(.85)}
+:root[data-theme="night"] .map-card iframe{filter:invert(.9) hue-rotate(180deg) saturate(.6) brightness(.95)}
+.map-info{position:absolute;left:clamp(14px,2vw,28px);top:50%;transform:translateY(-50%);width:min(360px,calc(100% - 28px));background:var(--surface);border-radius:var(--r);padding:22px 24px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:4px}
+.map-info .kicker{margin-bottom:4px}
+.map-info b{font-size:22px;letter-spacing:-.01em}
+.map-info span{color:var(--muted);font-size:15.5px}
+.map-actions{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin-top:14px}
+@media (max-width:900px){
+  .map-card{aspect-ratio:auto;min-height:0;display:flex;flex-direction:column}
+  .map-card iframe{position:static;height:300px;order:-1}
+  .map-info{position:static;transform:none;width:auto;box-shadow:none;border-radius:0}
+  .map-actions .btn{width:100%}
+}
+
+/* v2.3: usługi na telefonie przewijane w bok */
+@media (max-width:900px){
+  #uslugi .svc-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;margin:0 calc(-1 * var(--gut));padding:4px var(--gut) 18px;scroll-padding-left:var(--gut);-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  #uslugi .svc-grid::-webkit-scrollbar{display:none}
+  #uslugi .svc{flex:0 0 min(78vw,320px);scroll-snap-align:start}
+  #uslugi .svc .ph{aspect-ratio:4/3}
+  .swipe-hint{display:flex}
+  .svc-index{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 calc(-1 * var(--gut));padding:8px var(--gut);border-radius:0;border-left:0;border-right:0;position:sticky;top:var(--nav-h);z-index:5}
+  .svc-index::-webkit-scrollbar{display:none}
+}
+.swipe-hint{display:none;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--muted);margin:-8px 0 14px}
+.swipe-hint svg{width:18px;height:18px;color:var(--accent)}
+@media (prefers-reduced-motion:no-preference){.swipe-hint svg{animation:nudge 1.8s ease-in-out infinite}@keyframes nudge{0%,100%{transform:none}50%{transform:translateX(5px)}}}
+.swipe-dots{display:none;justify-content:center;gap:6px;margin-top:4px}
+.swipe-dots i{width:7px;height:7px;border-radius:50%;background:var(--line);transition:width .3s var(--ease),background-color .3s}
+.swipe-dots i.on{width:20px;border-radius:4px;background:var(--accent)}
+@media (max-width:900px){.swipe-dots{display:flex}}
+
+/* v2.3: oś wizyty na telefonie */
+@media (max-width:900px){
+  .timeline li{grid-template-columns:56px 1fr;column-gap:16px;row-gap:0;align-items:start}
+  .timeline .dot{grid-row:1 / span 3;grid-column:1}
+  .timeline small,.timeline b,.timeline span{grid-column:2}
+  .timeline small{margin-top:4px}
+}

@@ -58,3 +58,4 @@ Ceny (`PRICES` w skrypcie), zgoda na imię i nazwisko lekarza, domena (canonical
 - Treści alarmowe to ogólne wskazówki z dopiskiem, że nie zastępują rozmowy z lekarzem; do przejrzenia przez lekarza przychodni.
 - Zdjęcia z promptów 16–21 wstawione (v2.1): szczepienie, skóra, mocz, paszport (usługi), kot w transporterze (pierwsza wizyta), dom nocą (nagły przypadek).
 - v2.2: „Nagły przypadek” uproszczony: krótki hero (1 zdanie + 2 przyciski), 6 grup objawów w kafelkach zamiast długiej listy, 3 kroki osobno.
+- v2.3: mapa Google (osadzona, bez klucza API) z kartą dojazdu na stronie głównej i w Kontakcie, w trybie nocnym przyciemniona filtrem; usługi na telefonie jako przewijana w bok karuzela ze wskazówką i kropkami; indeks usług na telefonie przewijany w bok i przyklejony; naprawiona oś wizyty na telefonie.
