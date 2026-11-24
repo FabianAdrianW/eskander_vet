@@ -1,0 +1,157 @@
+#!/usr/bin/env python3
+"""Buduje statyczne strony z src/pages/*.html + wspólny nagłówek i stopka.
+Użycie: python3 src/build.py  (z katalogu repo). Wynik: *.html w katalogu głównym."""
+import json, pathlib, re
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+PAGES = ROOT / "src" / "pages"
+
+SERVICES = [
+    ("profilaktyka", "Profilaktyka i szczepienia", "i-shield"),
+    ("interna", "Interna i diagnostyka", "i-steth"),
+    ("usg", "USG", "i-wave"),
+    ("laboratorium", "Badania laboratoryjne", "i-micro"),
+    ("wymazy", "Wymazy i zeskrobiny", "i-drop"),
+    ("mocz-kal", "Badanie moczu i kału", "i-tube"),
+    ("chirurgia", "Chirurgia", "i-scalpel"),
+    ("sterylizacja", "Kastracja i sterylizacja", "i-heart"),
+    ("chip-paszport", "Chip i paszport", "i-chip"),
+    ("dyzur", "Dyżur nocny", "i-moon"),
+]
+
+SPRITE = """<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-roof" viewBox="0 0 20 12"><path d="M1.5 11 10 2.5l8.5 8.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.6 3h3.3l1.6 4.2-2.1 1.4a11 11 0 0 0 6 6l1.4-2.1L21 14v3.4A1.7 1.7 0 0 1 19.3 19C10.8 18.7 5.3 13.2 5 4.7A1.7 1.7 0 0 1 6.6 3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></g></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></g></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></g></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></g></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.2a4.2 4.2 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/><path d="M12 9.5v5.5M9.3 12.2h5.4"/></g></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></g></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z" fill="currentColor"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21.5 20h-19z"/><path d="M12 10v4.5M12 17.3v.2"/></g></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11 12 4l8.5 7"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></g></symbol>
+<symbol id="i-receipt" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-2.5-1.5L13 21l-1-1-1 1-2.5-1.5L6 21z"/><path d="M9 8h6M9 12h6M9 16h3"/></g></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9.5" r="2.5"/><path d="M15.5 14.5a4.5 4.5 0 0 1 5 4.5"/></g></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3.5 19 6v6c0 4.4-3 7.4-7 8.5-4-1.1-7-4.1-7-8.5V6z"/><path d="m9 12 2.2 2.2L15.5 10" stroke-linecap="round"/></g></symbol>
+<symbol id="i-steth" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 3.5v5a4 4 0 0 0 8 0v-5"/><path d="M10 12.5v2a5 5 0 0 0 10 0V13"/><circle cx="20" cy="11" r="2"/></g></symbol>
+<symbol id="i-wave" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 18a8 8 0 0 1 16 0"/><path d="M7.5 18a4.5 4.5 0 0 1 9 0"/><path d="M12 6v2"/></g></symbol>
+<symbol id="i-micro" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3.5h4M11 3.5v5l-3 3 3.5 3.5 3-3"/><path d="M5 20.5h14M8 20.5a6 6 0 0 1 9-5"/></g></symbol>
+<symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3.5s6 6.5 6 10.5a6 6 0 0 1-12 0c0-4 6-10.5 6-10.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-tube" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3.5h6M10 3.5v13a2 2 0 0 0 4 0v-13"/><path d="M10 11h4"/></g></symbol>
+<symbol id="i-scalpel" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m4 20 9-9 3 3-6 6z"/><path d="m13 11 5.5-5.5a2 2 0 0 1 2.8 2.8L16 14"/></g></symbol>
+<symbol id="i-chip" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M10 3.5v3M14 3.5v3M10 17.5v3M14 17.5v3M3.5 10h3M3.5 14h3M17.5 10h3M17.5 14h3"/></g></symbol>
+<symbol id="i-bag" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7.5" width="17" height="12.5" rx="2"/><path d="M9 7.5V5.5a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 5.5v2"/><path d="M12 11v5M9.5 13.5h5"/></g></symbol>
+<symbol id="i-car" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16.5V12l2-5h10l2 5v4.5"/><path d="M3.5 16.5h17v2h-17z"/><circle cx="7.5" cy="14" r=".6"/><circle cx="16.5" cy="14" r=".6"/></g></symbol>
+<symbol id="i-paw" viewBox="0 0 24 24"><g fill="currentColor"><ellipse cx="12" cy="16" rx="4.2" ry="3.4"/><circle cx="6.3" cy="10.8" r="1.9"/><circle cx="9.6" cy="7" r="1.9"/><circle cx="14.4" cy="7" r="1.9"/><circle cx="17.7" cy="10.8" r="1.9"/></g></symbol>
+</svg>"""
+
+HEAD = """<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content="{desc}">
+<meta name="theme-color" content="#F6F4EF">
+<link rel="canonical" href="https://eskander.pl/{file_url}"><!-- TODO: potwierdzić domenę -->
+<meta property="og:type" content="website"><meta property="og:locale" content="pl_PL">
+<meta property="og:title" content="{title}"><meta property="og:description" content="{desc}">
+<meta property="og:image" content="img/hero-house-night-1400.webp">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="img/favicon-180.png">
+<link rel="preload" as="font" type="font/woff2" href="fonts/figtree-latin-800-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/figtree-latin-400-normal.woff2" crossorigin>
+{extra_head}
+<link rel="stylesheet" href="assets/css/site.css">
+<script>/* motyw ustawiany przed renderem, bez mignięcia */(function(){{try{{var m=sessionStorage.getItem('esk-mode');if(m){{document.documentElement.dataset.theme=m;return}}}}catch(e){{}}var p=new Intl.DateTimeFormat('en-GB',{{timeZone:'Europe/Warsaw',weekday:'short',hour:'2-digit',hour12:false}}).formatToParts(new Date()),d=p.find(function(x){{return x.type==='weekday'}}).value,h=+p.find(function(x){{return x.type==='hour'}}).value,o={{Mon:18,Tue:18,Wed:18,Thu:18,Fri:18,Sat:15}}[d];document.documentElement.dataset.theme=(o&&h>=10&&h<o)?'day':'night'}})();</script>
+</head>
+<body class="page-{key}">
+<a class="skip" href="#main">Przejdź do treści</a>
+"""
+
+def nav(key):
+    def cur(k): return ' aria-current="page"' if k == key else ''
+    svc_links = "\n".join(
+        f'<li><a href="uslugi.html#{sid}"{" class=\"alarm\"" if sid=="dyzur" else ""}><svg><use href="#{ic}"/></svg>{name}</a></li>'
+        for sid, name, ic in SERVICES)
+    return f"""<header class="nav" id="nav" data-open="false">
+  <div class="nav-in">
+    <a class="brand" href="index.html" aria-label="Eskander, przychodnia weterynaryjna, strona główna">
+      <img class="mk-d" src="img/logo-mark.png" width="624" height="499" alt="">
+      <img class="mk-n" src="img/logo-mark-white.png" width="624" height="499" alt="">
+      <span class="w"><b>ESKANDER</b><small>Przychodnia weterynaryjna</small></span>
+    </a>
+    <button class="burger" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span><span></span></button>
+    <ul class="menu" id="menu">
+      <li class="has-drop"><button type="button" aria-expanded="false" aria-haspopup="true"{' aria-current="page"' if key=='uslugi' else ''}>Usługi<svg class="chev"><use href="#i-chev"/></svg></button>
+        <ul class="drop">{svc_links}</ul></li>
+      <li><a href="zespol.html"{cur('zespol')}>Nasz zespół</a></li>
+      <li class="has-drop"><button type="button" aria-expanded="false" aria-haspopup="true"{' aria-current="page"' if key in ('pierwsza-wizyta','nagly-przypadek','cennik') else ''}>Dla właściciela<svg class="chev"><use href="#i-chev"/></svg></button>
+        <ul class="drop">
+          <li><a href="pierwsza-wizyta.html"><svg><use href="#i-bag"/></svg>Pierwsza wizyta i FAQ</a></li>
+          <li><a href="nagly-przypadek.html" class="alarm"><svg><use href="#i-alert"/></svg>Nagły przypadek</a></li>
+          <li><a href="cennik.html"><svg><use href="#i-receipt"/></svg>Cennik</a></li>
+        </ul></li>
+      <li><a href="kontakt.html"{cur('kontakt')}>Kontakt</a></li>
+    </ul>
+    <span class="status" id="status" role="status"><i></i><span id="status-t">Pn–pt 10–18, sob 10–15</span></span>
+    <button class="mode" id="mode" type="button" aria-pressed="false" title="Tryb nocny pokazuje, co robić w nagłym przypadku"><span class="knob"><svg class="sun"><use href="#i-sun"/></svg><svg class="moon"><use href="#i-moon"/></svg></span><span class="t">Tryb dzienny</span></button>
+    <a class="btn btn-action nav-call" href="tel:+48536041341"><svg><use href="#i-phone"/></svg><span class="t">536 041 341</span><span class="sr-only">Zadzwoń</span></a>
+  </div>
+  <div class="progress" aria-hidden="true"></div>
+</header>
+<div class="alarmbar" role="region" aria-label="Dyżur nocny">
+  <div class="wrap"><span class="msg">Przychodnia jest teraz zamknięta. Działa dyżur pod telefonem. <a href="nagly-przypadek.html">Co robić?</a></span>
+  <a class="phone" href="tel:+48536041341"><svg><use href="#i-phone"/></svg>536 041 341</a></div>
+</div>
+"""
+
+FOOTER = """<footer class="footer">
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <p class="brandf"><img src="img/logo-mark-white.png" width="624" height="499" alt=""><b>ESKANDER</b></p>
+        <p>Przychodnia weterynaryjna w Miłoszycach. Psy i koty z Miłoszyc, Jelcza-Laskowic i okolic.</p>
+        <span>Dyżur po godzinach</span><a class="big" href="tel:+48536041341">536 041 341</a>
+      </div>
+      <div><h2>Przychodnia</h2><ul><li><a href="index.html#o-nas">O nas</a></li><li><a href="zespol.html">Nasz zespół</a></li><li><a href="uslugi.html">Usługi</a></li><li><a href="cennik.html">Cennik</a></li></ul></div>
+      <div><h2>Dla właściciela</h2><ul><li><a href="pierwsza-wizyta.html">Pierwsza wizyta i FAQ</a></li><li><a href="nagly-przypadek.html">Nagły przypadek</a></li><li><a href="kontakt.html">Kontakt i dojazd</a></li><li><a href="https://www.facebook.com/weterynarzjelcz/" target="_blank" rel="noopener">Facebook</a></li></ul></div>
+      <div><h2>Godziny</h2><ul><li>Pn–pt 10:00–18:00</li><li>Sob 10:00–15:00</li><li>Pozostałe godziny i niedziele: dyżur pod telefonem</li><li>ul. Azaliowa 1a, 55-220 Miłoszyce</li></ul></div>
+    </div>
+    <div class="legal">
+      <span>© <span id="y">2026</span> Przychodnia Weterynaryjna Eskander</span>
+      <span>Zdjęcia to sceny ilustracyjne i nie przedstawiają personelu ani pacjentów przychodni.</span>
+      <span><a href="polityka-prywatnosci.html">Polityka prywatności</a></span>
+      <!-- TODO: potwierdzić z firmą podpis autora -->
+      <span>Strona: Adrian Wojtasik</span>
+    </div>
+  </div>
+</footer>
+<div class="callbar" id="callbar">
+  <a class="btn btn-action" href="tel:+48536041341"><svg><use href="#i-phone"/></svg>Zadzwoń</a>
+  <a class="btn btn-ghost" href="kontakt.html#zapytanie"><svg><use href="#i-mail"/></svg>Zapytaj</a>
+</div>
+<script src="assets/js/site.js" defer></script>
+</body>
+</html>
+"""
+
+def build():
+    for src in sorted(PAGES.glob("*.html")):
+        raw = src.read_text(encoding="utf8")
+        m = re.match(r"<!--\s*(\{.*?\})\s*-->\n", raw, re.S)
+        meta = json.loads(m.group(1)); body = raw[m.end():]
+        key = src.stem
+        file_url = "" if key == "index" else f"{key}.html"
+        html = HEAD.format(title=meta["title"], desc=meta["desc"], key="home" if key=="index" else key,
+                           file_url=file_url, extra_head=meta.get("head",""))
+        html += SPRITE + "\n" + nav(key) + '<main id="main">\n' + body + "</main>\n" + FOOTER
+        (ROOT / f"{key}.html").write_text(html, encoding="utf8")
+        print("built", key)
+
+if __name__ == "__main__":
+    build()

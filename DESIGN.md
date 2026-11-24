@@ -1,4 +1,4 @@
-# Eskander — DESIGN.md (strona v1)
+# Eskander — DESIGN.md (strona v2)
 
 Podmiot: Przychodnia Weterynaryjna Eskander, ul. Azaliowa 1a, 55-220 Miłoszyce. Cel: wizytówka + pozyskanie wizyt (telefon, prośba o termin).
 Źródło prawdy marki: `brand/Eskander_Brand_Book_v1.pdf`, `brand/brandbook.config.json`.
@@ -47,3 +47,13 @@ Wszystkie wygenerowane w Google Flow (Nano Banana Pro) na prośbę Fabiana, prom
 
 ## Do uzupełnienia przez firmę
 Ceny (`PRICES` w skrypcie), zgoda na imię i nazwisko lekarza, domena (canonical), skrzynka na zgłoszenia, termin Akcji Sterylizacji 2027, status prawny (przychodnia), system rezerwacji z FB, podpis autora w stopce, logo w SVG.
+
+## v2 (2026-11-24) — wizytówka zamiast lead page
+- Struktura: index, uslugi, zespol, pierwsza-wizyta (+FAQ), nagly-przypadek, cennik, kontakt, polityka-prywatnosci. Strony budowane z `src/pages/*.html` przez `python3 src/build.py` (wspólny nagłówek, menu, stopka). Style: `assets/css/site.css`, skrypt: `assets/js/site.js`.
+- Kierunek „profesjonalnie i rodzinnie”: bez obrotów i karteczek; równe karty (radius 14 px), dużo bieli, daszek z logo jako detal (etykiety, linia u góry karty przy hoverze).
+- Menu: Usługi (rozwijane, 10 pozycji z ikonami) / Nasz zespół / Dla właściciela (Pierwsza wizyta, Nagły przypadek, Cennik) / Kontakt.
+- Tryb nocny = tryb alarmowy. Włącza się sam poza godzinami (pn–pt 10–18, sob 10–15) lub przełącznikiem w navbarze. Na stronie głównej zamiast hero: numer dyżurny jako duży przycisk, 3 kroki (zadzwoń, przygotuj, przyjedź), lista objawów „dzwoń od razu”, link do pełnej instrukcji. Na podstronach czerwony pasek pod navbarem z numerem. Przycisk telefonu w navbarze i dolnym pasku zmienia się na czerwony.
+- Formularz: zapytanie (3 pola, 2 wymagane, mailto), bez umawiania terminu.
+- Zespół: miejsca na prawdziwe zdjęcia; wizerunków personelu nie generujemy.
+- Treści alarmowe to ogólne wskazówki z dopiskiem, że nie zastępują rozmowy z lekarzem; do przejrzenia przez lekarza przychodni.
+- Tymczasowe zdjęcia (do podmiany promptami 16–21): profilaktyka, wymazy, mocz i kał, paszport.
