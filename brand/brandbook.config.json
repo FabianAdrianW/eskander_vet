@@ -1,0 +1,102 @@
+{
+  "version": "1.0-lite",
+  "brand": {
+    "name": "Eskander",
+    "full_name": "Przychodnia Weterynaryjna Eskander. lek. wet. Małgorzata Atanowska-Eskander",
+    "descriptor": "Przychodnia weterynaryjna w Miłoszycach",
+    "promise": "Z miłości do zwierząt. O każdej porze.",
+    "essence": "Dom, w którym nocą pali się światło."
+  },
+  "contact": {
+    "phone": "536 041 341",
+    "phone_href": "tel:+48536041341",
+    "email": "eskanderwet@gmail.com",
+    "address": "ul. Azaliowa 1a (os. Przylesie), 55-220 Miłoszyce",
+    "area": ["Miłoszyce", "Jelcz-Laskowice"],
+    "hours": {
+      "mon_fri": "10:00-18:00",
+      "sat": "10:00-15:00",
+      "other": "dyżur nocny pod telefonem (po godzinach, niedziele, święta)"
+    },
+    "facebook": "https://www.facebook.com/weterynarzjelcz/",
+    "domain": "eskander.pl (do sprawdzenia)",
+    "maps": "https://www.google.com/maps/place//data=!4m2!3m1!1s0x4710200b3d94a815:0x4e69de905e57670a"
+  },
+  "tokens": {
+    "color": {
+      "accent": "#0080B8",
+      "accent_deep": "#00669A",
+      "green": "#009040",
+      "green_deep": "#00773A",
+      "ink": "#0E2A3B",
+      "paper": "#F6F4EF",
+      "white": "#FFFFFF",
+      "muted": "#56676F",
+      "line": "#E2DED5",
+      "red": "#D7262E",
+      "warm": "#F2B35E",
+      "surface": "#FFFFFF"
+    },
+    "font": { "display": "Figtree", "body": "Figtree", "license": "SIL OFL 1.1" },
+    "radius": "6px",
+    "radius_pill": "999px",
+    "grid": 12,
+    "motion": { "ease": "cubic-bezier(.22,.61,.36,1)", "duration_ms": 350, "reduced_motion": "disable" }
+  },
+  "voice": {
+    "address": "Ty",
+    "address_formal_contexts": ["odpowiedzi na opinie", "pierwszy e-mail"],
+    "yes": ["ciepły", "konkretny", "spokojny"],
+    "no": ["ckliwy", "korporacyjny", "straszący"],
+    "banned": ["najlepsi", "kompleksowo", "profesjonalizm", "pupil", "futrzak", "zwierzaczek", "lecznica", "klinika", "szpital"],
+    "rule": "Co się dzieje → co zrobimy → ile to kosztuje → co dalej"
+  },
+  "archetype": {
+    "primary": "Opiekun",
+    "supporting": "Mędrzec",
+    "shadow_avoid": "ckliwość i wykład: fakty, krótkie zdania, bez zdrobnień"
+  },
+  "soul": {
+    "brand_line": "Twoje zwierzę ma do kogo zadzwonić, także w nocy.",
+    "metaphor": "dom ze światłem w oknie",
+    "motif": "linia dachu (chevron) z logo",
+    "prop": "błękitny ręcznik/kocyk #0080B8",
+    "photo_world": "dzień: miękkie światło z lewej, biel, jasny dąb; noc: jedna ciepła lampa, granatowe cienie; granatowe stroje bez napisów",
+    "section_schema": "eyebrow > h2 > lead > cta",
+    "night_mode": "poza godzinami otwarcia strona przechodzi w granat i eksponuje telefon dyżurny"
+  },
+  "contexts": [
+    { "id": "nagly", "label": "Nagły przypadek", "meaning": "Numer i adres w 3 sekundy.", "image": "images/night-bandage.jpg" },
+    { "id": "nowe", "label": "Nowe zwierzę", "meaning": "Chip, paszport, szczepienia. Termin i cena.", "image": "images/service-chip.jpg" },
+    { "id": "senior", "label": "Senior", "meaning": "Ciągłość leczenia i cierpliwość.", "image": "images/context-senior.jpg" },
+    { "id": "rodzina", "label": "Rodzina", "meaning": "Profilaktyka bez stresu.", "image": "images/context-rodzina.jpg" },
+    { "id": "fundacje", "label": "Organizacje", "meaning": "Akcja Sterylizacji, współpraca z fundacjami.", "image": "images/campaign-sterylizacja.jpg" }
+  ],
+  "services": [
+    { "id": "dyzur", "label": "Dyżur nocny", "line": "Po 18:00 też odbieramy. Najpierw zadzwoń.", "image": "images/night-phone.jpg" },
+    { "id": "profilaktyka", "label": "Profilaktyka", "line": "Szczepienia, odrobaczanie, chip i paszport.", "image": "images/service-chip.jpg" },
+    { "id": "interna", "label": "Interna i diagnostyka", "line": "Badanie, USG i laboratorium na miejscu.", "image": "images/service-interna.jpg" },
+    { "id": "usg", "label": "USG", "line": "Wynik od razu, bez jeżdżenia do Wrocławia.", "image": "images/service-usg.jpg" },
+    { "id": "laboratorium", "label": "Laboratorium", "line": "Krew, mocz, kał, wymazy, zeskrobiny.", "image": "images/service-lab.jpg" },
+    { "id": "chirurgia", "label": "Chirurgia", "line": "Przed zabiegiem mówimy, co zrobimy i ile to kosztuje.", "image": "images/service-chirurgia.jpg" }
+  ],
+  "method": ["Telefon lub formularz", "Wyjaśnienie i koszt", "Diagnostyka na miejscu", "Leczenie", "Kontakt po zabiegu"],
+  "pricing": { "status": "czeka na przychodnię", "night_surcharge": null, "items": [] },
+  "booking": { "v1": "formularz prośby o termin (oddzwaniamy)", "target": "integracja z systemem przychodni (do sprawdzenia)" },
+  "images": {
+    "hero": "images/hero-house-night.jpg",
+    "hero_alt": ["images/hero-love.jpg", "images/hero-paw.jpg"],
+    "about": "images/interior-waiting.jpg",
+    "transparency": "images/context-wyjasniamy.jpg",
+    "disclaimer": "Sceny ilustracyjne, nie przedstawiają personelu przychodni."
+  },
+  "messages": {
+    "hero": "Z miłości do zwierząt. O każdej porze.",
+    "hero_sub": "Przychodnia weterynaryjna w Miłoszycach. Za dnia przyjmujemy na miejscu, po 18:00 odbieramy telefon dyżurny.",
+    "short": "Przychodnia weterynaryjna w Miłoszycach z dyżurem nocnym pod telefonem 536 041 341.",
+    "cta": "Umów wizytę",
+    "cta_secondary": "Zadzwoń",
+    "night": "Po 18:00 też odbieramy."
+  },
+  "legal": { "facility_type": "przychodnia weterynaryjna (nie lecznica/klinika) — do potwierdzenia" }
+}
