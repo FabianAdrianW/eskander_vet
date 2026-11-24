@@ -500,3 +500,30 @@ li.open > .drop{opacity:1;visibility:visible;transform:none}
   .timeline small,.timeline b,.timeline span{grid-column:2}
   .timeline small{margin-top:4px}
 }
+
+/* v2.4: wejście w tryb nocny bez zaskoczenia */
+.js-now:not(:empty)::after{content:". "}
+.alarm-hero h1{font-size:clamp(34px,4.2vw,62px)}
+.to-day{display:flex;align-items:center;gap:12px;margin-top:26px;max-width:520px;width:100%;text-align:left;font:inherit;font-size:15.5px;color:var(--on-night-muted);background:rgba(255,255,255,.04);border:1px solid #21465C;border-radius:14px;padding:14px 16px;cursor:pointer;transition:border-color .3s,background-color .3s}
+.to-day b{color:#fff;font-weight:700}
+.to-day svg{width:24px;height:24px;color:var(--warm);flex:none}
+.to-day:hover{border-color:var(--warm);background:rgba(242,179,94,.08)}
+.mode{position:relative}
+.mode.glow{border-color:var(--warm);box-shadow:0 0 0 0 rgba(242,179,94,.6)}
+@media (prefers-reduced-motion:no-preference){.mode.glow{animation:glowpulse 1.8s ease-out 4}@keyframes glowpulse{0%{box-shadow:0 0 0 0 rgba(242,179,94,.65)}100%{box-shadow:0 0 0 14px rgba(242,179,94,0)}}}
+.mode-tip{position:absolute;top:calc(100% + 12px);right:0;width:270px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:14px 16px;font-size:14px;line-height:1.45;font-weight:500;text-align:left;z-index:70;opacity:0;transform:translateY(-6px);transition:opacity .35s var(--ease),transform .35s var(--ease);pointer-events:none}
+.mode-tip::before{content:"";position:absolute;top:-7px;right:26px;width:12px;height:12px;background:var(--surface);border-left:1px solid var(--line);border-top:1px solid var(--line);transform:rotate(45deg)}
+.mode-tip.show{opacity:1;transform:none;pointer-events:auto}
+.mode-tip b{display:block;font-size:14.5px;margin-bottom:2px}
+.mode-tip button{display:block;margin-top:8px;font:inherit;font-weight:700;font-size:13.5px;color:var(--action);background:transparent;border:0;padding:0;cursor:pointer;min-height:32px}
+
+/* v2.4: oś wizyty na telefonie jako przesuwane karty */
+@media (max-width:900px){
+  .visit-photo{aspect-ratio:16/9;margin-bottom:24px}
+  .timeline{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1 * var(--gut));padding:4px var(--gut) 16px;scroll-padding-left:var(--gut);scrollbar-width:none}
+  .timeline::-webkit-scrollbar{display:none}
+  .timeline::before{display:none}
+  .timeline li{flex:0 0 min(72vw,270px);scroll-snap-align:start;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;padding-bottom:22px}
+  .timeline .dot{width:48px;height:48px;margin:0 0 14px}
+  .timeline small{margin:0}
+}

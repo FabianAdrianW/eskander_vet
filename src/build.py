@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Buduje statyczne strony z src/pages/*.html + wspólny nagłówek i stopka.
 Użycie: python3 src/build.py  (z katalogu repo). Wynik: *.html w katalogu głównym."""
-import json, pathlib, re
+import json, pathlib, re, hashlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PAGES = ROOT / "src" / "pages"
@@ -141,6 +141,8 @@ FOOTER = """<footer class="footer">
 """
 
 def build():
+    v = lambda p: hashlib.md5((ROOT/p).read_bytes()).hexdigest()[:8]
+    css_v, js_v = v("assets/css/site.css"), v("assets/js/site.js")
     for src in sorted(PAGES.glob("*.html")):
         raw = src.read_text(encoding="utf8")
         m = re.match(r"<!--\s*(\{.*?\})\s*-->\n", raw, re.S)
@@ -150,6 +152,7 @@ def build():
         html = HEAD.format(title=meta["title"], desc=meta["desc"], key="home" if key=="index" else key,
                            file_url=file_url, extra_head=meta.get("head",""))
         html += SPRITE + "\n" + nav(key) + '<main id="main">\n' + body + "</main>\n" + FOOTER
+        html = html.replace('href="assets/css/site.css"', f'href="assets/css/site.css?v={css_v}"').replace('src="assets/js/site.js"', f'src="assets/js/site.js?v={js_v}"')
         (ROOT / f"{key}.html").write_text(html, encoding="utf8")
         print("built", key)
 

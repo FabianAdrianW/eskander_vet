@@ -3,8 +3,8 @@
 <section class="alarm-hero night-only" aria-labelledby="h-alarm">
   <div class="wrap alarm-grid">
     <div>
-      <p class="kicker"><svg aria-hidden="true"><use href="#i-moon"/></svg>Przychodnia zamknięta, działa dyżur nocny</p>
-      <h1 id="h-alarm">Coś niepokoi Cię u&nbsp;zwierzęcia? Zadzwoń.</h1>
+      <p class="kicker"><svg aria-hidden="true"><use href="#i-moon"/></svg><span><span class="js-now"></span>Przychodnia jest teraz zamknięta, działa dyżur nocny.</span></p>
+      <h1 id="h-alarm"><span class="js-greet">Dobry wieczór</span>. Jeśli coś niepokoi Cię u&nbsp;zwierzęcia, zadzwoń.</h1>
       <p class="lead">Lekarz odbierze i powie, czy trzeba przyjechać od razu, czy wystarczy poczekać do rana.</p>
       <a class="callcard" href="tel:+48536041341">
         <small><svg aria-hidden="true"><use href="#i-phone"/></svg>Telefon dyżurny</small>
@@ -16,6 +16,7 @@
         <li><span class="n">2</span><span><b>Przygotuj zwierzę do drogi</b>Kot w transporterze, pies na smyczy. Weź opakowanie po tym, co zjadło.</span></li>
         <li><span class="n">3</span><span><b>Przyjedź na Azaliową 1a</b>Miłoszyce, os. Przylesie. <a href="https://www.google.com/maps/dir/?api=1&amp;destination=51.0616959,17.3001209" target="_blank" rel="noopener" style="color:#fff">Wyznacz trasę</a></span></li>
       </ol>
+      <button class="to-day js-day" type="button"><svg aria-hidden="true"><use href="#i-sun"/></svg><span>Szukasz informacji o przychodni? <b>Przejdź do strony dziennej</b></span></button>
     </div>
     <div class="redflags">
       <h2><svg aria-hidden="true"><use href="#i-alert"/></svg>Dzwoń od razu, jeśli zwierzę:</h2>
@@ -89,7 +90,6 @@
       <h2 class="h2" id="h-uslugi">Od szczepienia po zabieg, w jednym miejscu.</h2></div>
       <a class="link" href="uslugi.html">Wszystkie usługi<svg><use href="#i-arrow"/></svg></a>
     </div>
-    <p class="swipe-hint" aria-hidden="true">Przesuń w bok, żeby zobaczyć więcej<svg><use href="#i-arrow"/></svg></p>
     <div class="svc-grid" id="svc-track">
       <a class="svc" href="uslugi.html#profilaktyka"><div class="ph"><img src="img/context-rodzina-800.webp" width="896" height="1200" loading="lazy" alt="Rodzina z dzieckiem głaszcze beagla na stole w gabinecie" style="object-position:50% 45%"></div><div class="tx"><h3>Profilaktyka i szczepienia</h3><p>Szczepienia, odrobaczanie i coroczny przegląd zdrowia.</p><span class="more">Więcej<svg><use href="#i-arrow"/></svg></span></div></a>
       <a class="svc" href="uslugi.html#interna"><div class="ph"><img src="img/service-interna-800.webp" width="896" height="1200" loading="lazy" alt="Lekarka osłuchuje pręgowanego kota siedzącego na niebieskim ręczniku" style="object-position:50% 35%"></div><div class="tx"><h3>Interna i diagnostyka</h3><p>Gdy zwierzę źle je, kaszle, kuleje albo po prostu nie jest sobą.</p><span class="more">Więcej<svg><use href="#i-arrow"/></svg></span></div></a>
@@ -111,13 +111,14 @@
       <a class="link" href="pierwsza-wizyta.html">Pierwsza wizyta: co zabrać<svg><use href="#i-arrow"/></svg></a>
     </div>
     <figure class="visit-photo"><img src="img/context-wyjasniamy-1400.webp" srcset="img/context-wyjasniamy-800.webp 800w, img/context-wyjasniamy-1400.webp 1400w" sizes="(max-width:1240px) 100vw, 1150px" width="1200" height="896" loading="lazy" alt="Lekarka omawia z parą plan leczenia, pies siedzi na kolanach właścicielki"><figcaption class="cap">Scena ilustracyjna</figcaption></figure>
-    <ol class="timeline">
+    <ol class="timeline" id="tl-track">
       <li><span class="dot"><svg><use href="#i-phone"/></svg></span><small></small><b>Rozmowa</b><span>Mówisz przez telefon lub na miejscu, co się dzieje.</span></li>
       <li><span class="dot"><svg><use href="#i-steth"/></svg></span><small></small><b>Badanie</b><span>Spokojnie, bez pośpiechu, z Tobą obok.</span></li>
       <li><span class="dot"><svg><use href="#i-receipt"/></svg></span><small></small><b>Plan i koszt</b><span>Mówimy, co proponujemy i ile to kosztuje.</span></li>
       <li><span class="dot"><svg><use href="#i-micro"/></svg></span><small></small><b>Leczenie</b><span>Leki, badania na miejscu albo zabieg.</span></li>
       <li><span class="dot"><svg><use href="#i-heart"/></svg></span><small></small><b>Opieka po wizycie</b><span>Gdy coś Cię zaniepokoi, dzwonisz pod ten sam numer.</span></li>
     </ol>
+    <div class="swipe-dots" id="tl-dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></div>
   </div>
 </section>
 

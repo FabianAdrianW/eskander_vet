@@ -36,6 +36,34 @@ const PRICES = { wizyta:null, szczepienie:null, chip:null, paszport:null, kastra
     if (document.body.classList.contains('page-home')) window.scrollTo({top:0, behavior:'smooth'});
   });
 
+  /* ---- tryb nocny bez zaskoczenia ---- */
+  function nightIntro(){
+    const t = new Intl.DateTimeFormat('pl-PL',{timeZone:'Europe/Warsaw',hour:'2-digit',minute:'2-digit'}).format(new Date());
+    const h = +t.slice(0,2);
+    document.querySelectorAll('.js-now').forEach(el => el.textContent = 'Jest ' + t);
+    document.querySelectorAll('.js-greet').forEach(el => el.textContent = (h >= 5 && h < 18) ? 'Dzień dobry' : 'Dobry wieczór');
+  }
+  nightIntro(); setInterval(nightIntro, 60000);
+  function goDay(){ userMode = 'day'; try { sessionStorage.setItem('esk-mode','day'); } catch(e){} apply(); hideTip(); window.scrollTo({top:0,behavior:'smooth'}); }
+  document.querySelectorAll('.js-day').forEach(b => b.addEventListener('click', goDay));
+  let tip = null;
+  function hideTip(){ if (tip){ tip.classList.remove('show'); } modeBtn && modeBtn.classList.remove('glow'); }
+  let seen = false; try { seen = sessionStorage.getItem('esk-tip') === '1'; } catch(e){}
+  if (modeBtn && !userMode && root.dataset.theme === 'night' && !seen){
+    try { sessionStorage.setItem('esk-tip','1'); } catch(e){}
+    modeBtn.classList.add('glow');
+    if (getComputedStyle(modeBtn).display !== 'none'){
+      tip = document.createElement('div'); tip.className = 'mode-tip'; tip.setAttribute('role','status');
+      tip.innerHTML = '<b>Włączyliśmy tryb nocny</b>Przychodnia jest teraz zamknięta, więc na górze widzisz numer dyżurny. <button type="button">Pokaż zwykłą stronę</button>';
+      const box = modeBtn.parentElement; box.style.position = 'relative'; modeBtn.after(tip);
+      tip.style.right = Math.max(0, box.getBoundingClientRect().right - modeBtn.getBoundingClientRect().right - 8) + 'px';
+      tip.querySelector('button').addEventListener('click', goDay);
+      setTimeout(() => tip.classList.add('show'), 900);
+      setTimeout(hideTip, 9000);
+    }
+    setTimeout(() => modeBtn.classList.remove('glow'), 8000);
+  }
+
   /* ---- navbar ---- */
   const nav = document.getElementById('nav'), callbar = document.getElementById('callbar');
   const onScroll = () => { const y = scrollY; nav.classList.toggle('is-scrolled', y > 8); callbar && callbar.classList.toggle('show', y > 420); };
@@ -90,9 +118,9 @@ const PRICES = { wizyta:null, szczepienie:null, chip:null, paszport:null, kastra
   const y = document.getElementById('y'); if (y) y.textContent = new Date().getFullYear();
 })();
 
-/* kropki karuzeli usług (telefon) */
-(function(){
-  const t = document.getElementById('svc-track'), d = document.getElementById('svc-dots');
+/* kropki karuzel (telefon) */
+[['svc-track','svc-dots'],['tl-track','tl-dots']].forEach(function(ids){
+  const t = document.getElementById(ids[0]), d = document.getElementById(ids[1]);
   if (!t || !d) return;
   const dots = [...d.children];
   t.addEventListener('scroll', () => {
@@ -102,4 +130,4 @@ const PRICES = { wizyta:null, szczepienie:null, chip:null, paszport:null, kastra
     if (t.scrollLeft + t.clientWidth >= t.scrollWidth - 4) i = cards.length - 1;
     dots.forEach((el, k) => el.classList.toggle('on', k === i));
   }, {passive:true});
-})();
+});
