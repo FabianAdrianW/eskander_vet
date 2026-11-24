@@ -56,4 +56,4 @@ Ceny (`PRICES` w skrypcie), zgoda na imię i nazwisko lekarza, domena (canonical
 - Formularz: zapytanie (3 pola, 2 wymagane, mailto), bez umawiania terminu.
 - Zespół: miejsca na prawdziwe zdjęcia; wizerunków personelu nie generujemy.
 - Treści alarmowe to ogólne wskazówki z dopiskiem, że nie zastępują rozmowy z lekarzem; do przejrzenia przez lekarza przychodni.
-- Tymczasowe zdjęcia (do podmiany promptami 16–21): profilaktyka, wymazy, mocz i kał, paszport.
+- Zdjęcia z promptów 16–21 wstawione (v2.1): szczepienie, skóra, mocz, paszport (usługi), kot w transporterze (pierwsza wizyta), dom nocą (nagły przypadek).
